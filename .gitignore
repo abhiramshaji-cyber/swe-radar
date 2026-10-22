@@ -1,5 +1,11 @@
 node_modules
 dist
-out
-release
-release.noindex
+out/
+release*/
+.env*
+*.bin
+settings.json
+store.json
+profile.md
+proxies.txt
+linkedin.json
