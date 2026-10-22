@@ -385,11 +385,6 @@
   "company": "Kognitos"
  },
  {
-  "slug": "koho",
-  "ats": "ashby",
-  "company": "Koho"
- },
- {
   "slug": "lambda",
   "ats": "ashby",
   "company": "Lambda"
@@ -493,11 +488,6 @@
   "slug": "n8n",
   "ats": "ashby",
   "company": "N8n"
- },
- {
-  "slug": "neofinancial",
-  "ats": "ashby",
-  "company": "Neofinancial"
  },
  {
   "slug": "neon",
@@ -763,11 +753,6 @@
   "slug": "warp",
   "ats": "ashby",
   "company": "Warp"
- },
- {
-  "slug": "wealthsimple",
-  "ats": "ashby",
-  "company": "Wealthsimple"
  },
  {
   "slug": "weaviate",
@@ -1145,11 +1130,6 @@
   "company": "Netlify"
  },
  {
-  "slug": "nicolawealth",
-  "ats": "greenhouse",
-  "company": "Nicola Wealth"
- },
- {
   "slug": "nucleus",
   "ats": "greenhouse",
   "company": "Nucleus Global"
@@ -1290,11 +1270,6 @@
   "company": "Alloy"
  },
  {
-  "slug": "altaml",
-  "ats": "lever",
-  "company": "Altaml"
- },
- {
   "slug": "apolloagriculture",
   "ats": "lever",
   "company": "Apolloagriculture"
@@ -1348,11 +1323,6 @@
   "slug": "enable",
   "ats": "lever",
   "company": "Enable"
- },
- {
-  "slug": "eqbank",
-  "ats": "lever",
-  "company": "Eqbank"
  },
  {
   "slug": "everbridge",
@@ -1460,11 +1430,6 @@
   "company": "Outreach"
  },
  {
-  "slug": "pelmorex",
-  "ats": "lever",
-  "company": "Pelmorex"
- },
- {
   "slug": "plusgrade",
   "ats": "lever",
   "company": "Plusgrade"
@@ -1518,11 +1483,6 @@
   "slug": "waveapps",
   "ats": "lever",
   "company": "Waveapps"
- },
- {
-  "slug": "wealthsimple",
-  "ats": "lever",
-  "company": "Wealthsimple"
  },
  {
   "slug": "amilia",
@@ -1608,11 +1568,6 @@
   "slug": "tetratech",
   "ats": "recruitee",
   "company": "Tetra Tech"
- },
- {
-  "slug": "translink",
-  "ats": "recruitee",
-  "company": "Translink"
  },
  {
   "slug": "veritas",

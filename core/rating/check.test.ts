@@ -2,7 +2,7 @@ import { expect, test } from "bun:test";
 import { checkRatings, failedAll } from "./check";
 
 const AT = 1_000;
-const URL_ = "https://www.glassdoor.ca/Reviews/Cohere-Reviews-E3256435.htm";
+const URL_ = "https://www.glassdoor.com/Reviews/Cohere-Reviews-E3256435.htm";
 const ok = { id: "cohere", company: "Cohere", rating: 4.14, reviews: 212, glassdoorUrl: URL_ };
 const one = (x: object) => checkRatings({ results: [{ ...ok, ...x }] }, ["cohere"], AT).cohere;
 
@@ -26,9 +26,9 @@ test.each([
   ["fractional reviews", { reviews: 12.5 }],
   ["zero reviews", { reviews: 0 }],
   ["non glassdoor host", { glassdoorUrl: "https://www.indeed.com/cmp/Cohere-E3256435.htm" }],
-  ["lookalike host", { glassdoorUrl: "https://glassdoor.ca.evil.com/Reviews/Cohere-Reviews-E3256435.htm" }],
-  ["no employer id", { glassdoorUrl: "https://www.glassdoor.ca/Reviews/cohere-reviews-SRCH_KE0,6.htm" }],
-  ["plain http", { glassdoorUrl: "http://www.glassdoor.ca/Reviews/Cohere-Reviews-E3256435.htm" }],
+  ["lookalike host", { glassdoorUrl: "https://glassdoor.com.evil.com/Reviews/Cohere-Reviews-E3256435.htm" }],
+  ["no employer id", { glassdoorUrl: "https://www.glassdoor.com/Reviews/cohere-reviews-SRCH_KE0,6.htm" }],
+  ["plain http", { glassdoorUrl: "http://www.glassdoor.com/Reviews/Cohere-Reviews-E3256435.htm" }],
   ["not a url", { glassdoorUrl: "glassdoor Cohere" }],
 ])("drops %s", (_, x) => {
   expect(one(x)).toEqual({ miss: true, at: AT });

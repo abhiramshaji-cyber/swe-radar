@@ -146,7 +146,7 @@ describe("area", () => {
     expect(sameArea("", "Ogdenville, OH")).toBe(true);
   });
 
-  test("annotations and province spelling do not matter", () => {
+  test("annotations and state spelling do not matter", () => {
     expect(
       sameArea(
         "Springfield, IL (Hybrid) [US]",

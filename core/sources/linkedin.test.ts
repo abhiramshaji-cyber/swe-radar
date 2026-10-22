@@ -99,5 +99,5 @@ test("search cards reach the classifier without a detail fetch, keeping any know
 
 test("search cards keep the linkedin company page link", () => {
   const cards = parseLinkedInCards(html, CAPTURED);
-  expect(cards.find((p) => p.key === "linkedin:4470753169")?.companyUrl).toBe("https://ca.linkedin.com/company/tmx-group");
+  expect(cards.find((p) => p.key === "linkedin:4470753169")?.companyUrl).toBe("https://www.linkedin.com/company/example-exchange");
 });

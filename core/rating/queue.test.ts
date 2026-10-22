@@ -20,7 +20,7 @@ test("one entry per company in priority order, context merged across jobs", () =
     [
       job("Cohere Inc."),
       job("Shopify"),
-      job("Cohere", { location: "Ogdenville, OH", companyUrl: "https://ca.linkedin.com/company/cohere-ai" }),
+      job("Cohere", { location: "Ogdenville, OH", companyUrl: "https://www.linkedin.com/company/cohere-ai" }),
     ],
     {},
   );
@@ -28,7 +28,7 @@ test("one entry per company in priority order, context merged across jobs", () =
   expect(due[0]).toEqual({
     id: "cohere",
     name: "Cohere Inc.",
-    linkedin: "https://ca.linkedin.com/company/cohere-ai",
+    linkedin: "https://www.linkedin.com/company/cohere-ai",
     locations: ["Springfield, IL", "Ogdenville, OH"],
   });
 });
