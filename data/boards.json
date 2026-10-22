@@ -10,11 +10,6 @@
   "company": "Abridge"
  },
  {
-  "slug": "absorblms",
-  "ats": "ashby",
-  "company": "Absorblms"
- },
- {
   "slug": "airtable",
   "ats": "ashby",
   "company": "Airtable"
@@ -170,11 +165,6 @@
   "company": "Dandy"
  },
  {
-  "slug": "dapper",
-  "ats": "ashby",
-  "company": "Dapper"
- },
- {
   "slug": "decagon",
   "ats": "ashby",
   "company": "Decagon"
@@ -255,11 +245,6 @@
   "company": "Fireworks"
  },
  {
-  "slug": "float",
-  "ats": "ashby",
-  "company": "Float"
- },
- {
   "slug": "foresight",
   "ats": "ashby",
   "company": "Foresight"
@@ -283,11 +268,6 @@
   "slug": "gamma",
   "ats": "ashby",
   "company": "Gamma"
- },
- {
-  "slug": "georgian",
-  "ats": "ashby",
-  "company": "Georgian"
  },
  {
   "slug": "gorgias",
@@ -350,11 +330,6 @@
   "company": "Hyperbolic"
  },
  {
-  "slug": "jane",
-  "ats": "ashby",
-  "company": "Jane"
- },
- {
   "slug": "jobber",
   "ats": "ashby",
   "company": "Jobber"
@@ -373,11 +348,6 @@
   "slug": "kira",
   "ats": "ashby",
   "company": "Kira"
- },
- {
-  "slug": "klue",
-  "ats": "ashby",
-  "company": "Klue"
  },
  {
   "slug": "kognitos",
@@ -430,11 +400,6 @@
   "company": "Llamaindex"
  },
  {
-  "slug": "loopio",
-  "ats": "ashby",
-  "company": "Loopio"
- },
- {
   "slug": "lovable",
   "ats": "ashby",
   "company": "Lovable"
@@ -463,11 +428,6 @@
   "slug": "mintlify",
   "ats": "ashby",
   "company": "Mintlify"
- },
- {
-  "slug": "miovision",
-  "ats": "ashby",
-  "company": "Miovision"
  },
  {
   "slug": "modal",
@@ -565,11 +525,6 @@
   "company": "Prefect"
  },
  {
-  "slug": "procurify",
-  "ats": "ashby",
-  "company": "Procurify"
- },
- {
   "slug": "propel",
   "ats": "ashby",
   "company": "Propel"
@@ -640,11 +595,6 @@
   "company": "Sonder"
  },
  {
-  "slug": "spare",
-  "ats": "ashby",
-  "company": "Spare"
- },
- {
   "slug": "speak",
   "ats": "ashby",
   "company": "Speak"
@@ -683,16 +633,6 @@
   "slug": "temporal",
   "ats": "ashby",
   "company": "Temporal"
- },
- {
-  "slug": "thinkific",
-  "ats": "ashby",
-  "company": "Thinkific"
- },
- {
-  "slug": "trulioo",
-  "ats": "ashby",
-  "company": "Trulioo"
  },
  {
   "slug": "trunk",
@@ -800,11 +740,6 @@
   "company": "Airtable"
  },
  {
-  "slug": "alayacare",
-  "ats": "greenhouse",
-  "company": "AlayaCare"
- },
- {
   "slug": "alloy",
   "ats": "greenhouse",
   "company": "Alloy"
@@ -823,11 +758,6 @@
   "slug": "appdirect",
   "ats": "greenhouse",
   "company": "AppDirect"
- },
- {
-  "slug": "appnovation",
-  "ats": "greenhouse",
-  "company": "Appnovation Technologies"
  },
  {
   "slug": "attentive",
@@ -850,11 +780,6 @@
   "company": "Brex"
  },
  {
-  "slug": "broadsign",
-  "ats": "greenhouse",
-  "company": "Broadsign Careers"
- },
- {
   "slug": "buildbook",
   "ats": "greenhouse",
   "company": "BuildBook"
@@ -865,24 +790,9 @@
   "company": "BuildOps"
  },
  {
-  "slug": "cardata",
-  "ats": "greenhouse",
-  "company": "Cardata"
- },
- {
   "slug": "chainguard",
   "ats": "greenhouse",
   "company": "Chainguard"
- },
- {
-  "slug": "clariticloudinc",
-  "ats": "greenhouse",
-  "company": "Clariti Cloud Inc."
- },
- {
-  "slug": "coconutsoftware",
-  "ats": "greenhouse",
-  "company": "Coconut Software "
  },
  {
   "slug": "coreweave",
@@ -975,11 +885,6 @@
   "company": "Fivetran "
  },
  {
-  "slug": "flipp",
-  "ats": "greenhouse",
-  "company": "Flipp"
- },
- {
   "slug": "foundry",
   "ats": "greenhouse",
   "company": "Foundry"
@@ -1000,11 +905,6 @@
   "company": "GitLab"
  },
  {
-  "slug": "globalrelay",
-  "ats": "greenhouse",
-  "company": "Global Relay"
- },
- {
   "slug": "graphcore",
   "ats": "greenhouse",
   "company": "Graphcore"
@@ -1023,11 +923,6 @@
   "slug": "hume",
   "ats": "greenhouse",
   "company": "Hume"
- },
- {
-  "slug": "ignitedigital",
-  "ats": "greenhouse",
-  "company": "Ignite Digital"
  },
  {
   "slug": "imbue",
@@ -1060,11 +955,6 @@
   "company": "Klaviyo"
  },
  {
-  "slug": "knak",
-  "ats": "greenhouse",
-  "company": "Knak"
- },
- {
   "slug": "kodiak",
   "ats": "greenhouse",
   "company": "Kodiak"
@@ -1073,11 +963,6 @@
   "slug": "labelbox",
   "ats": "greenhouse",
   "company": "Labelbox"
- },
- {
-  "slug": "later",
-  "ats": "greenhouse",
-  "company": "Later"
  },
  {
   "slug": "lattice",
@@ -1105,24 +990,9 @@
   "company": "Maxwell"
  },
  {
-  "slug": "mediavalet",
-  "ats": "greenhouse",
-  "company": "MediaValet"
- },
- {
   "slug": "mejuri",
   "ats": "greenhouse",
   "company": "Mejuri"
- },
- {
-  "slug": "metalab",
-  "ats": "greenhouse",
-  "company": "Metalab"
- },
- {
-  "slug": "mojio",
-  "ats": "greenhouse",
-  "company": "Mojio"
  },
  {
   "slug": "netlify",
@@ -1185,19 +1055,9 @@
   "company": "Stripe"
  },
  {
-  "slug": "tandemlaunch",
-  "ats": "greenhouse",
-  "company": "TandemLaunch"
- },
- {
   "slug": "tenstorrent",
   "ats": "greenhouse",
   "company": "Tenstorrent"
- },
- {
-  "slug": "thinkific",
-  "ats": "greenhouse",
-  "company": "Thinkific"
  },
  {
   "slug": "thoropass",
@@ -1235,11 +1095,6 @@
   "company": "Typeface"
  },
  {
-  "slug": "unbounce",
-  "ats": "greenhouse",
-  "company": "Unbounce"
- },
- {
   "slug": "vercel",
   "ats": "greenhouse",
   "company": "Vercel"
@@ -1258,11 +1113,6 @@
   "slug": "warp",
   "ats": "greenhouse",
   "company": "Warp"
- },
- {
-  "slug": "workleap",
-  "ats": "greenhouse",
-  "company": "Workleap"
  },
  {
   "slug": "alloy",
@@ -1293,11 +1143,6 @@
   "slug": "clari",
   "ats": "lever",
   "company": "Clari"
- },
- {
-  "slug": "crowdriff",
-  "ats": "lever",
-  "company": "Crowdriff"
  },
  {
   "slug": "docebo",
@@ -1370,19 +1215,9 @@
   "company": "Harmony"
  },
  {
-  "slug": "imagexmedia",
-  "ats": "lever",
-  "company": "Imagexmedia"
- },
- {
   "slug": "imbue",
   "ats": "lever",
   "company": "Imbue"
- },
- {
-  "slug": "kabam",
-  "ats": "lever",
-  "company": "Kabam"
  },
  {
   "slug": "kepler",
@@ -1410,11 +1245,6 @@
   "company": "Metaview"
  },
  {
-  "slug": "mistplay",
-  "ats": "lever",
-  "company": "Mistplay"
- },
- {
   "slug": "mistral",
   "ats": "lever",
   "company": "Mistral"
@@ -1430,11 +1260,6 @@
   "company": "Outreach"
  },
  {
-  "slug": "plusgrade",
-  "ats": "lever",
-  "company": "Plusgrade"
- },
- {
   "slug": "pointclickcare",
   "ats": "lever",
   "company": "Pointclickcare"
@@ -1445,11 +1270,6 @@
   "company": "Pryon"
  },
  {
-  "slug": "quandri",
-  "ats": "lever",
-  "company": "Quandri"
- },
- {
   "slug": "skio",
   "ats": "lever",
   "company": "Skio"
@@ -1458,11 +1278,6 @@
   "slug": "sophos",
   "ats": "lever",
   "company": "Sophos"
- },
- {
-  "slug": "tealbook",
-  "ats": "lever",
-  "company": "Tealbook"
  },
  {
   "slug": "unify",
@@ -1485,11 +1300,6 @@
   "company": "Waveapps"
  },
  {
-  "slug": "amilia",
-  "ats": "recruitee",
-  "company": "Amilia"
- },
- {
   "slug": "apollo",
   "ats": "recruitee",
   "company": "Apollo"
@@ -1508,11 +1318,6 @@
   "slug": "clockwise",
   "ats": "recruitee",
   "company": "Clockwise"
- },
- {
-  "slug": "deeplite",
-  "ats": "recruitee",
-  "company": "Deeplite"
  },
  {
   "slug": "eleven",
@@ -1535,11 +1340,6 @@
   "company": "Gorgias"
  },
  {
-  "slug": "jane",
-  "ats": "recruitee",
-  "company": "Jane"
- },
- {
   "slug": "lindy",
   "ats": "recruitee",
   "company": "Lindy-Elektronik GmbH"
@@ -1548,11 +1348,6 @@
   "slug": "norm",
   "ats": "recruitee",
   "company": "Norm"
- },
- {
-  "slug": "petalmd",
-  "ats": "recruitee",
-  "company": "Petal"
  },
  {
   "slug": "prodigy",
@@ -1573,16 +1368,6 @@
   "slug": "veritas",
   "ats": "recruitee",
   "company": "Veritas"
- },
- {
-  "slug": "assent",
-  "ats": "smartrecruiters",
-  "company": "Assent"
- },
- {
-  "slug": "chargelab",
-  "ats": "smartrecruiters",
-  "company": "ChargeLab"
  },
  {
   "slug": "clearbanc",
@@ -1633,10 +1418,5 @@
   "slug": "together",
   "ats": "smartrecruiters",
   "company": "Together"
- },
- {
-  "slug": "vosker",
-  "ats": "smartrecruiters",
-  "company": "Vosker"
  }
 ]

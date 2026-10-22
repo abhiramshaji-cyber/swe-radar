@@ -12,7 +12,7 @@ import { rateCompanies } from "./run";
 
 const NOW = Date.now();
 const LONG = "Build and run services in TypeScript on a small product team. ".repeat(10);
-const COMPANIES = ["Cohere", "Shopify", "Clio", "Hootsuite", "Bench", "Thinkific", "Klue", "Jane"];
+const COMPANIES = ["Cohere", "Shopify", "Stripe", "Figma", "Notion", "Linear", "Vercel", "Airtable"];
 
 const job = (company: string, i: number): Posting => ({
   key: "greenhouse:" + i,
