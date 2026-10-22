@@ -4,6 +4,7 @@ import { errorText, limit } from "../http";
 import type { Settings } from "../settings";
 import type { Extraction, Posting } from "../types";
 import { classifyOne } from "./answer";
+import type { Rates } from "../rank/rates";
 
 export { MODEL } from "./answer";
 
@@ -23,6 +24,7 @@ export function classifier(
   companies: Record<string, number>,
   progress: (o: Outcome) => void,
   signal?: AbortSignal,
+  rates?: Rates,
 ) {
   const results = new Map<string, Extraction>();
   const jev = apiKey ? new TypeSafeClient({ apiKey, timeout: TIMEOUT }) : null;
@@ -37,7 +39,7 @@ export function classifier(
     if (halt || signal?.aborted) return halt;
     try {
       const company = companyKey(p);
-      const { extraction, usage } = await classifyOne(client, p, company ? companies[company] : undefined, settings, signal);
+      const { extraction, usage } = await classifyOne(client, p, company ? companies[company] : undefined, settings, signal, rates);
       tokens += usage.input_tokens;
       if (!extraction) return "Jev returned an invalid answer for " + p.title;
       if (company && extraction.companyScore !== null) companies[company] ??= extraction.companyScore;

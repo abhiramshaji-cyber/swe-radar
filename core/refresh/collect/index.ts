@@ -1,3 +1,4 @@
+import { loadRates } from "../../rank/rates";
 import { dedupeKey } from "../../dedupe";
 import { classifier } from "../../jev";
 import { placeKey, reacher } from "../../jev/reach";
@@ -29,10 +30,11 @@ export async function collect(
   { settings, apiKey, now = Date.now(), sources: all = SOURCES, signal, resume, launched, described }: Options,
 ): Promise<RefreshResult> {
   const store = pruneStore(loadStore(file), now);
+  const rates = await loadRates(file, now, signal);
   const due = (s: Source) => launched === undefined || dueAt(store, s, launched) <= now;
   const sources = all.filter(([s]) => due(s));
   const hit = new Set<Source>();
-  const cached = lookup(store, settings);
+  const cached = lookup(store, settings, rates);
   const scope = placeKey(settings, "");
   store.places = Object.fromEntries(Object.entries(store.places).filter(([k]) => k.startsWith(scope)));
   const statuses = new Map<string, SourceStatus>();
@@ -43,7 +45,7 @@ export async function collect(
   };
 
   // rows
-  const rowsNow = () => rowsOf(store, [...statuses.values()], settings);
+  const rowsNow = () => rowsOf(store, [...statuses.values()], settings, rates);
   let timer: ReturnType<typeof setTimeout> | undefined;
   let dirty = false;
   const push = () => {
@@ -73,6 +75,7 @@ export async function collect(
       push();
     },
     signal,
+    rates,
   );
   const { classify, rescore, settled } = classifyQueue(jev, tiers, cached, store.seen, now);
 

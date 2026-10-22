@@ -2,6 +2,8 @@ import { blocked } from "../blocked";
 import { dedupe, dedupeKey } from "../dedupe";
 import { keep } from "../keep";
 import { markReposts, sight } from "../repost";
+import { convertedPay } from "../rank/pay";
+import { loadRates, readRates, type Rates } from "../rank/rates";
 import { jobScore } from "../rank/score";
 import { byNewest, effectiveAt, inWindow } from "../time";
 import { classifier } from "../jev";
@@ -24,8 +26,8 @@ export const toPosting = ({
   ...p
 }: Row): Posting => p;
 
-function toRow(p: Posting, x: Extraction | null, firstSeen: number, stale: boolean, s: Settings): Row {
-  const posted = p.pay?.currency === s.currency ? p.pay : null;
+function toRow(p: Posting, x: Extraction | null, firstSeen: number, stale: boolean, s: Settings, rates?: Rates): Row {
+  const posted = convertedPay(p.pay, s.currency, rates);
   const salary = posted ?? x?.pay ?? null;
   return {
     ...p,
@@ -45,6 +47,7 @@ export function buildRows(
   seen: Record<string, number>,
   stale: Set<string>,
   s: Settings,
+  rates?: Rates,
 ): Row[] {
   const byGroup = new Map<string, Extraction>();
   for (const p of postings) {
@@ -53,21 +56,27 @@ export function buildRows(
   }
   return dedupe(postings)
     .map((p) =>
-      toRow(p, cached(p.key) ?? byGroup.get(dedupeKey(p)) ?? null, seen[p.key] ?? p.postedAt, stale.has(p.key), s),
+      toRow(p, cached(p.key) ?? byGroup.get(dedupeKey(p)) ?? null, seen[p.key] ?? p.postedAt, stale.has(p.key), s, rates),
     )
     .sort(byNewest);
 }
 
-export const lookup = (store: Store, s: Settings): Lookup => {
+export const lookup = (store: Store, s: Settings, rates?: Rates): Lookup => {
   const version = schemaOf(s);
-  return (k: string) => (store.extractions[k]?.version === version ? store.extractions[k] : null);
+  return (k: string) => {
+    const x = store.extractions[k];
+    if (x?.version !== version) return null;
+    const p = store.jobs[k];
+    if (p?.pay && !x.pay && !convertedPay(p.pay, s.currency, rates)) return null;
+    return x;
+  };
 };
 
-export function rowsOf(store: Store, statuses: SourceStatus[], s: Settings) {
+export function rowsOf(store: Store, statuses: SourceStatus[], s: Settings, rates?: Rates) {
   const failed = new Set(statuses.filter((s) => s.state === "error").map((s) => s.source));
   const jobs = Object.values(store.jobs);
   const stale = new Set(jobs.filter((p) => failed.has(p.source)).map((p) => p.key));
-  return buildRows(jobs, lookup(store, s), store.seen, stale, s);
+  return buildRows(jobs, lookup(store, s, rates), store.seen, stale, s, rates);
 }
 
 export function storeJobs(store: Store, postings: Posting[], now: number, win: number) {
@@ -88,14 +97,14 @@ export const countJobs = (store: Store, source: string, fits: (p: Posting) => bo
 export const halted = (s: SourceStatus): SourceStatus =>
   s.state === "running" ? { source: s.source, state: "paused", count: s.count } : s;
 
-function resultOf(store: Store, now: number, s: Settings): RefreshResult | null {
+function resultOf(store: Store, now: number, s: Settings, rates?: Rates): RefreshResult | null {
   const { last, scan } = store;
   if (!last && !scan && !Object.keys(store.jobs).length) return null;
   const statuses = scan ? scan.statuses.map(halted) : (last?.statuses ?? []).filter((s) => s.source !== "jev");
   return {
     at: last?.at ?? now,
     window: last?.window,
-    rows: rowsOf(store, statuses, s),
+    rows: rowsOf(store, statuses, s, rates),
     statuses,
     classifyError: last?.classifyError ?? null,
     cost: last?.cost ?? 0,
@@ -103,14 +112,15 @@ function resultOf(store: Store, now: number, s: Settings): RefreshResult | null 
   };
 }
 
-export const lastResult = (file: string, s: Settings, now = Date.now()) => resultOf(pruneStore(loadStore(file), now), now, s);
+export const lastResult = (file: string, s: Settings, now = Date.now()) => resultOf(pruneStore(loadStore(file), now), now, s, readRates(file, now));
 
 export async function rescore(file: string, on: Hooks, s: Settings, apiKey?: string): Promise<RefreshResult | null> {
   const now = Date.now();
   const store = pruneStore(loadStore(file), now);
-  const last = resultOf(store, now, s);
+  const rates = await loadRates(file, now);
+  const last = resultOf(store, now, s, rates);
   if (!last) return null;
-  const rowsNow = () => rowsOf(store, last.statuses, s);
+  const rowsNow = () => rowsOf(store, last.statuses, s, rates);
   const jev = classifier(apiKey, s, store.companies, (o) => {
     on.classifying?.({ done: o.done, total: o.total });
     on.classified?.(o);
@@ -118,8 +128,8 @@ export async function rescore(file: string, on: Hooks, s: Settings, apiKey?: str
     store.extractions[o.posting.key] = o.extraction;
     saveStore(file, store);
     on.rows?.(rowsNow());
-  });
-  const cached = lookup(store, s);
+  }, undefined, rates);
+  const cached = lookup(store, s, rates);
   await jev.add(dedupe(Object.values(store.jobs).filter((p) => !cached(p.key))));
   const { error, cost } = jev.finish();
   saveStore(file, {

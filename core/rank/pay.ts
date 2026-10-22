@@ -1,4 +1,16 @@
 import type { Pay } from "../types";
+import type { Rates } from "./rates";
+
+export function convertedPay(pay: Pay | undefined, currency: string, rates?: Rates): Pay | null {
+  if (!pay?.currency) return null;
+  if (pay.currency === currency) return pay;
+  const from = rates?.[pay.currency];
+  const to = rates?.[currency];
+  if (!from || !to || !Number.isFinite(from) || !Number.isFinite(to) || from <= 0 || to <= 0) return null;
+  const min = pay.min * to / from;
+  const max = pay.max * to / from;
+  return Number.isFinite(min) && Number.isFinite(max) && min > 0 && max >= min ? { min, max, currency } : null;
+}
 
 export type Per = "hour" | "day" | "week" | "month" | "year";
 
