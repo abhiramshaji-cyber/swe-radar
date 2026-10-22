@@ -1,0 +1,60 @@
+{
+  "name": "swe-radar",
+  "productName": "SWE Radar",
+  "version": "1.0.0",
+  "description": "Recent software engineering job postings near you, classified by TypeSafe Jev and ranked locally",
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "main": "out/main/main.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "start": "electron-vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test",
+    "discover": "bun scripts/discover-boards.ts",
+    "smoke": "bun scripts/smoke.ts",
+    "dist": "electron-vite build && electron-builder --mac dir",
+    "install-app": "bun run dist && bun scripts/install-app.ts"
+  },
+  "build": {
+    "appId": "dev.sweradar.app",
+    "productName": "SWE Radar",
+    "files": [
+      "out/**"
+    ],
+    "directories": {
+      "output": "release.noindex"
+    },
+    "mac": {
+      "target": "dir",
+      "identity": null,
+      "category": "public.app-category.productivity"
+    }
+  },
+  "trustedDependencies": [
+    "electron"
+  ],
+  "dependencies": {
+    "@react-pdf/renderer": "^4.5.1",
+    "@typesafe-ai/sdk": "^0.6.0",
+    "node-html-parser": "^9.0.4",
+    "react": "^19.0.0",
+    "undici": "7.30.0"
+  },
+  "devDependencies": {
+    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
+    "@types/bun": "^1.4.2",
+    "@types/node": "^26.2.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^44.5.0",
+    "electron-builder": "^26.15.3",
+    "electron-vite": "^5.0.0",
+    "lucide-react": "^0.468.0",
+    "react-dom": "^19.0.0",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.5"
+  }
+}

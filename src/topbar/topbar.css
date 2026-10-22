@@ -1,0 +1,202 @@
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-bar);
+  display: grid;
+  grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr);
+  grid-template-areas: "brand filters actions";
+  align-items: center;
+  gap: 12px 24px;
+  min-height: 80px;
+  padding: 10px clamp(16px, 2.6vw, 40px);
+  background: oklch(0.975 0.012 300 / 82%);
+  backdrop-filter: blur(16px) saturate(160%);
+  box-shadow: 0 1px 0 var(--line);
+}
+
+.topbar::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -1px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--brand), var(--sun), var(--grape), transparent);
+  background-size: 50% 100%;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+.topbar[data-busy]::after {
+  opacity: 1;
+  animation: sweep 1.4s var(--ease-io) infinite;
+}
+
+@keyframes sweep {
+  from { background-position: -100% 0; }
+  to { background-position: 200% 0; }
+}
+
+.filters {
+  grid-area: filters;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.classify-bar {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 3px;
+  width: calc(var(--p) * 100%);
+  border-radius: 0 999px 999px 0;
+  background: linear-gradient(90deg, var(--mint), var(--grape));
+  transition: width 400ms var(--ease-out);
+}
+
+.brand {
+  grid-area: brand;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.brand h1 {
+  font: 750 26px/1 var(--display);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.mark {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, var(--surface) 0 3px, transparent 3.5px),
+    repeating-radial-gradient(circle, transparent 0 7px, oklch(1 0 0 / 45%) 7px 8px),
+    linear-gradient(140deg, var(--brand), var(--grape));
+  box-shadow: inset 0 1px 1px oklch(1 0 0 / 50%), 0 6px 16px -6px var(--brand);
+  overflow: hidden;
+}
+
+.mark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(from 0deg, oklch(1 0 0 / 70%), transparent 22%);
+  animation: spin 7s linear infinite;
+}
+
+.topbar[data-busy] .mark::after {
+  animation-duration: 1s;
+}
+
+@keyframes spin {
+  to { rotate: 360deg; }
+}
+
+.count {
+  position: relative;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: var(--brand-wash);
+  color: var(--brand-deep);
+  font: 750 17px/1.4 var(--display);
+  font-variant-numeric: tabular-nums;
+  animation: pop 420ms var(--ease-out);
+}
+
+@keyframes pop {
+  from { transform: scale(0.7); opacity: 0; }
+}
+
+.actions {
+  grid-area: actions;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+.refresh {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 46px;
+  margin-left: 8px;
+  padding: 0 22px 0 18px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--brand), var(--brand-deep));
+  color: oklch(0.99 0.01 60);
+  font: 700 16.5px/1 var(--display);
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 35%), 0 8px 20px -8px var(--brand-deep);
+  transition: transform 160ms var(--ease-out), box-shadow 200ms ease;
+}
+
+.refresh:hover {
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 35%), 0 12px 26px -8px var(--brand-deep);
+}
+
+.refresh:active {
+  transform: scale(0.96);
+}
+
+.refresh svg {
+  transition: rotate 500ms var(--ease-out);
+}
+
+.refresh:hover svg {
+  rotate: 120deg;
+}
+
+.refresh[data-busy] svg {
+  animation: spin 0.9s linear infinite;
+}
+
+.refresh[data-stale]::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  border: 2px solid var(--brand);
+  animation: ring 1.8s var(--ease-out) infinite;
+}
+
+@keyframes ring {
+  from { opacity: 0.8; transform: scale(0.96); }
+  to { opacity: 0; transform: scale(1.12); }
+}
+
+@media (max-width: 1799px) {
+  .topbar {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: "brand actions" "filters filters";
+    padding-block: 14px;
+  }
+
+  .filters {
+    flex-flow: row wrap;
+  }
+}
+
+@media (max-width: 819px) {
+  .topbar {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "brand" "actions" "filters";
+    justify-items: center;
+  }
+
+  .actions {
+    justify-content: center;
+  }
+}

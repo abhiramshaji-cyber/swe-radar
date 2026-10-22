@@ -1,0 +1,65 @@
+.empty {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 7vh 0 4vh;
+  animation: rise 600ms var(--ease-out) backwards;
+}
+
+.end-tile {
+  display: grid;
+  place-items: center;
+  min-height: 170px;
+  border-radius: 28px;
+  border: 2px dashed oklch(0.86 0.04 300);
+  animation: rise 520ms var(--ease-out) backwards;
+}
+
+.empty[data-done] {
+  gap: 4px;
+  padding: 8px;
+}
+
+.empty[data-done] p {
+  color: var(--ink-soft);
+  font-size: 18px;
+}
+
+.empty p {
+  font: 700 26px/1 var(--display);
+  letter-spacing: -0.015em;
+}
+
+.beam {
+  transform-origin: 120px 104px;
+  animation: spin 6s linear infinite;
+}
+
+.empty[data-busy] .beam {
+  animation-duration: 1.2s;
+}
+
+.blip {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: blipping 2.4s var(--ease-out) infinite;
+}
+
+.b2 { animation-delay: 0.8s; }
+.b3 { animation-delay: 1.6s; }
+
+@keyframes blipping {
+  0%, 100% { transform: scale(0.6); opacity: 0.4; }
+  30% { transform: scale(1.2); opacity: 1; }
+}
+
+.spark {
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+.s2 { animation-delay: 1s; }
+.s3 { animation-delay: 2s; }
+
+@keyframes twinkle {
+  50% { opacity: 0.3; }
+}

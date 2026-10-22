@@ -1,0 +1,29 @@
+{
+  "data": {
+    "$type": "com.linkedin.voyager.jobs.JobPosting",
+    "entityUrn": "urn:li:fs_normalized_jobPosting:4477748438",
+    "dashEntityUrn": "urn:li:fsd_jobPosting:4477748438",
+    "trackingUrn": "urn:li:jobPosting:4477748438",
+    "jobPostingId": 4477748438,
+    "title": "Full-Stack Software Engineer",
+    "formattedLocation": "Springfield, IL",
+    "jobState": "LISTED",
+    "listedAt": 1792214695000,
+    "originalListedAt": 1792213794000,
+    "repostedJobPosting": null,
+    "closedAt": null,
+    "expireAt": 1794806695000
+  },
+  "included": [
+    {
+      "entityUrn": "urn:li:fs_jobApplyingInfo:4477748438",
+      "closed": false,
+      "$type": "com.linkedin.voyager.entities.shared.JobApplyingInfo"
+    },
+    {
+      "entityUrn": "urn:li:fs_normalized_company:1449",
+      "$type": "com.linkedin.voyager.organization.Company",
+      "name": "Electronic Arts (EA)"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+.celebrate {
+  position: fixed;
+  top: 96px;
+  left: 50%;
+  z-index: var(--z-cheer);
+  pointer-events: none;
+}
+
+.cheer {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  translate: -50% 0;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--sun);
+  font: 750 22px/1 var(--display);
+  box-shadow: var(--shadow-lift);
+  animation: cheer 2.8s var(--ease-out) forwards;
+}
+
+@keyframes cheer {
+  0% { opacity: 0; transform: translateY(-16px) scale(0.9); }
+  12% { opacity: 1; transform: none; }
+  80% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: translateY(-8px) scale(0.96); }
+}
+
+.confetti i {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  width: 9px;
+  height: 14px;
+  border-radius: 3px;
+  background: oklch(0.78 0.17 var(--h));
+  opacity: 0;
+  animation: burst 1.6s var(--ease-out) var(--d) forwards;
+}
+
+.confetti i:nth-child(3n) {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+@keyframes burst {
+  0% { opacity: 1; transform: translate(0, 0) rotate(0) scale(0.6); }
+  70% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confetti {
+    display: none;
+  }
+}

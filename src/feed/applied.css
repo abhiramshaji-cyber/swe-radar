@@ -1,0 +1,37 @@
+.applied-group {
+  display: grid;
+  gap: 14px;
+}
+
+.applied-rule {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--ink-soft);
+  font: 700 14px/1 var(--display);
+  white-space: nowrap;
+}
+
+.applied-rule::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.card[data-applied] .card-open {
+  opacity: 0.6;
+  filter: saturate(0.4);
+  transition: opacity 220ms var(--ease-out), filter 220ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card[data-applied] .card-open:hover {
+    opacity: 0.85;
+  }
+}
+
+.card-applied[aria-pressed="true"] {
+  background: oklch(0.94 0.06 160);
+  color: oklch(0.45 0.12 160);
+}

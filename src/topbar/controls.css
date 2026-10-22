@@ -1,0 +1,234 @@
+.seg {
+  position: relative;
+  display: grid;
+  --w: 64px;
+  grid-template-columns: repeat(var(--n), minmax(0, var(--w)));
+  max-width: 100%;
+  padding: 5px;
+  border-radius: 999px;
+  background: var(--sunken);
+  box-shadow: inset 0 1px 2px oklch(0.3 0.08 295 / 8%);
+}
+
+.seg-thumb {
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  left: 5px;
+  width: calc((100% - 10px) / var(--n));
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: 0 1px 2px oklch(0.3 0.08 295 / 10%), 0 4px 12px -4px oklch(0.3 0.1 295 / 25%);
+  transform: translateX(calc(var(--i) * 100%));
+  transition: transform 320ms var(--ease-out);
+}
+
+.seg button {
+  position: relative;
+  min-width: 0;
+  height: 40px;
+  border-radius: 999px;
+  color: var(--ink-soft);
+  font: 650 16px/1 var(--display);
+  transition: color 200ms ease, transform 140ms var(--ease-out);
+}
+
+.seg button:active {
+  transform: scale(0.94);
+}
+
+.seg button[aria-checked="true"] {
+  color: var(--ink);
+}
+
+.seg button[data-state="wait"] {
+  opacity: 0.4;
+}
+
+.seg button[data-state="ready"] {
+  animation: pop 420ms var(--ease-out);
+}
+
+.seg button[data-state]::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  right: 9px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brand);
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.seg button[data-state="run"]::after {
+  opacity: 1;
+  animation: blink 0.7s ease-in-out infinite alternate;
+}
+
+.seg button[data-partial]::after {
+  opacity: 1;
+  background: var(--honey);
+}
+
+.seg[data-wide] {
+  --w: 168px;
+}
+
+.seg[data-wide] button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 10px;
+  font-size: 15px;
+}
+
+.seg-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.seg-count {
+  min-width: 22px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: var(--brand-wash);
+  color: var(--brand-deep);
+  font: 700 12px/1 var(--display);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--mint);
+  box-shadow: 0 0 0 3px oklch(0.72 0.15 160 / 22%);
+}
+
+.dot[data-state="error"] {
+  background: var(--honey);
+  box-shadow: 0 0 0 3px oklch(0.76 0.15 72 / 25%);
+}
+
+.dot[data-state="running"] {
+  background: var(--brand);
+  box-shadow: 0 0 0 3px oklch(0.67 0.19 38 / 25%);
+  animation: blink 1s ease-in-out infinite alternate;
+}
+
+.dot[data-state="paused"] {
+  background: var(--grape);
+  box-shadow: 0 0 0 3px oklch(0.5 0.19 295 / 22%);
+}
+
+@keyframes blink {
+  to { opacity: 0.35; }
+}
+
+.sources-btn {
+  anchor-name: --sources;
+}
+
+.issues {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--honey-ink);
+}
+
+.sources-pop {
+  position-anchor: --sources;
+  width: 340px;
+  padding: 8px;
+}
+
+.src-line {
+  display: grid;
+  grid-template-columns: 10px 1fr auto 16px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  list-style: none;
+}
+
+.src-line b {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.src-line .num {
+  color: var(--ink-soft);
+}
+
+summary.src-line {
+  cursor: pointer;
+}
+
+summary.src-line:hover {
+  background: var(--sunken);
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+.chev {
+  transform-origin: 50% 50%;
+  color: var(--ink-soft);
+  transition: rotate 200ms var(--ease-out);
+}
+
+details[open] .chev {
+  rotate: 180deg;
+}
+
+.src-note {
+  margin: 0 12px 8px 34px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: oklch(0.96 0.04 80);
+  color: var(--honey-ink);
+  font-size: 13.5px;
+  overflow-wrap: anywhere;
+}
+
+.refresh-error summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  color: var(--honey-ink);
+  font-weight: 650;
+  list-style: none;
+}
+
+.src-name {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+.src-label {
+  color: var(--ink-soft);
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.reset-btn[data-armed],
+.reset-btn[data-armed]:hover {
+  background: var(--brand);
+  color: white;
+  animation: nudge 0.3s var(--ease-out);
+}
+
+@keyframes nudge {
+  40% { transform: scale(1.12) rotate(-6deg); }
+}

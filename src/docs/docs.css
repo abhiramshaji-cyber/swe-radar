@@ -1,0 +1,200 @@
+.card-doc {
+  color: var(--brand-deep);
+  background: var(--brand-wash);
+}
+
+.card-doc:hover {
+  background: var(--brand);
+  color: var(--surface);
+}
+
+.card-doc[data-state="busy"] {
+  color: var(--brand-deep);
+  background: var(--brand-wash);
+  cursor: progress;
+}
+
+.card-doc[data-state="busy"]::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  border: 2.5px solid transparent;
+  border-top-color: var(--brand);
+  border-right-color: var(--brand);
+  animation: spin 900ms linear infinite;
+}
+
+.card-doc[data-state="busy"] svg {
+  animation: breathe 1.4s ease-in-out infinite;
+}
+
+.card-doc[data-state="done"] {
+  background: var(--mint);
+  color: var(--surface);
+}
+
+.card-doc[data-state="done"] svg {
+  animation: pop 520ms var(--ease-out);
+}
+
+.card-doc[data-state="done"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 0 var(--mint);
+  animation: ripple 700ms var(--ease-out) forwards;
+}
+
+.card-refetch {
+  padding: 0 14px;
+  color: var(--brand-deep);
+  background: var(--brand-wash);
+  font-size: 14px;
+}
+
+.card-refetch:hover {
+  background: var(--brand);
+  color: var(--surface);
+}
+
+.card-refetch[data-state="busy"] {
+  cursor: progress;
+  background: var(--brand-wash);
+  color: var(--brand-deep);
+}
+
+.card-refetch[data-state="busy"] svg {
+  animation: spin 900ms linear infinite;
+}
+
+.card-refetch[data-state="failed"] {
+  background: oklch(0.96 0.04 80);
+  color: var(--honey-ink);
+}
+
+.fetch-all {
+  justify-self: end;
+}
+
+.fetch-all:disabled {
+  cursor: progress;
+}
+
+@keyframes spin {
+  to { transform: rotate(1turn); }
+}
+
+@keyframes breathe {
+  50% { opacity: 0.45; transform: scale(0.9); }
+}
+
+@keyframes pop {
+  0% { transform: scale(0.4) rotate(-20deg); }
+  60% { transform: scale(1.2) rotate(6deg); }
+}
+
+@keyframes ripple {
+  to { box-shadow: 0 0 0 12px oklch(0.72 0.15 160 / 0%); }
+}
+
+.toasts {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  z-index: var(--z-cheer);
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 0;
+  list-style: none;
+  translate: -50% 0;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 8px 8px 16px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--surface);
+  box-shadow: var(--shadow-lift);
+  animation: toast-in 380ms var(--ease-out);
+}
+
+.toast[data-kind="done"] > svg {
+  color: var(--mint);
+}
+
+.toast[data-kind="error"] > svg {
+  color: var(--honey);
+}
+
+.toast-text {
+  display: grid;
+  font: 650 15px/1.2 var(--display);
+  max-width: 46ch;
+}
+
+.toast-text small {
+  color: oklch(0.8 0.03 300);
+  font: 500 12.5px/1.2 var(--body);
+}
+
+.toast-open {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: var(--sun);
+  color: var(--ink);
+  font-weight: 700;
+  transition: transform 140ms var(--ease-out), background-color 160ms ease;
+}
+
+.toast-open:hover {
+  background: oklch(0.92 0.13 92);
+}
+
+.toast-icon {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  color: oklch(0.85 0.03 300);
+  transition: background-color 160ms ease, transform 140ms var(--ease-out);
+}
+
+.toast-icon:hover {
+  background: oklch(1 0 0 / 12%);
+  color: var(--surface);
+}
+
+.toast-open:active,
+.toast-icon:active {
+  transform: scale(0.94);
+}
+
+.toast-icon[data-tip]::after {
+  top: auto;
+  bottom: calc(100% + 10px);
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.96); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-refetch[data-state="busy"] svg {
+    animation: none;
+  }
+
+  .card-doc[data-state="busy"]::before {
+    animation: none;
+    border-color: var(--brand);
+    opacity: 0.55;
+  }
+}
