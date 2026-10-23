@@ -1,4 +1,5 @@
 import { SETTINGS } from "../settings/fixture";
+import type { Settings } from "../settings";
 import { afterEach, expect, test } from "bun:test";
 import fs from "node:fs";
 import path from "node:path";
@@ -62,10 +63,10 @@ function serve(search: string) {
   return calls;
 }
 
-function harness(known: Record<string, string>) {
+function harness(known: Record<string, string>, settings: Settings = SETTINGS) {
   const emitted: Posting[] = [];
   const ctx: Ctx = {
-    settings: SETTINGS,
+    settings,
     now: NOW,
     cutoff: NOW - 12 * 3600_000,
     from: NOW - 12 * 3600_000,
@@ -95,6 +96,18 @@ test("search cards reach the classifier without a detail fetch, keeping any know
     "linkedin:1": "",
     "linkedin:2": "Own the Rails monolith",
   });
+});
+
+test("a remote-only region searches with f_WT=2 beside an onsite region sharing its location", async () => {
+  const calls = serve(card("1", "Software Engineer"));
+  const regions = [
+    { id: "remote", label: "Remote", description: "Remote anywhere in my country", linkedinLocation: "Springfield", linkedinRemoteOnly: true },
+    { id: "metro", label: "Metro", description: "Onsite or hybrid in Springfield", linkedinLocation: "Springfield" },
+  ];
+  const { run } = harness({}, { ...SETTINGS, searchTerms: ["software engineer"], regions });
+  await run();
+  expect(calls.filter((u) => u.includes("f_WT=2")).length).toBe(1);
+  expect(calls.filter((u) => u.includes("seeMoreJobPostings") && !u.includes("f_WT")).length).toBe(1);
 });
 
 test("search cards keep the linkedin company page link", () => {

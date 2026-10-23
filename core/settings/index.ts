@@ -8,6 +8,7 @@ export type Region = {
   label: string;
   description: string;
   linkedinLocation?: string;
+  linkedinRemoteOnly?: boolean;
 };
 
 export type Settings = {
@@ -78,6 +79,7 @@ function regions(v: unknown): Region[] {
       label,
       description,
       ...(linkedinLocation && { linkedinLocation }),
+      ...(linkedinLocation && r?.linkedinRemoteOnly === true && { linkedinRemoteOnly: true }),
     });
   }
   return [...out.values()].slice(0, MAX_REGIONS);
