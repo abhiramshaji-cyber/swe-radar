@@ -10,8 +10,9 @@ const PAGE = 10;
 const MAX_PAGES = 3;
 const STOP_AFTER = 2;
 const HOST = "www.linkedin.com";
-export const locationsOf = (s: Settings) =>
-  [...new Set(s.regions.map((r) => r.linkedinLocation).filter((x) => !!x))] as string[];
+type Place = { location: string; remoteOnly: boolean };
+export const locationsOf = (s: Settings): Place[] =>
+  [...new Map(s.regions.filter((r) => r.linkedinLocation).map((r) => [r.linkedinLocation + "|" + !!r.linkedinRemoteOnly, { location: r.linkedinLocation!, remoteOnly: !!r.linkedinRemoteOnly }])).values()];
 
 export function parseLinkedInCards(html: string, now: number): Posting[] {
   return parse(html)
@@ -82,9 +83,10 @@ export const linkedInDescription = (p: Posting) =>
   pacer()(detailUrl(p)).then(parseLinkedInDetail);
 
 const geo = (place: string) => "location=" + encodeURIComponent(place);
+const workType = (p: Place) => (p.remoteOnly ? "&f_WT=2" : "");
 
-const searchUrl = (q: string, place: string, page: number, ctx: Ctx) =>
-  BASE + "seeMoreJobPostings/search?keywords=" + encodeURIComponent(q) + "&" + geo(place) + "&f_TPR=r" + Math.ceil((ctx.now - ctx.cutoff) / 1000) + "&sortBy=DD&start=" + page * PAGE;
+const searchUrl = (q: string, place: Place, page: number, ctx: Ctx) =>
+  BASE + "seeMoreJobPostings/search?keywords=" + encodeURIComponent(q) + "&" + geo(place.location) + workType(place) + "&f_TPR=r" + Math.ceil((ctx.now - ctx.cutoff) / 1000) + "&sortBy=DD&start=" + page * PAGE;
 
 type Found = Map<string, Posting>;
 type Cursors = Map<string, number>;
@@ -93,7 +95,7 @@ async function search(ctx: Ctx, log: Log, get: (url: string) => Promise<string>,
   const errors: unknown[] = [];
   for (const q of ctx.settings.searchTerms)
     for (const place of locationsOf(ctx.settings)) {
-      const at = q + "|" + geo(place);
+      const at = q + "|" + geo(place.location) + workType(place);
       for (let page = cursors.get(at) ?? 0; page < MAX_PAGES; page++) {
         let cards: Posting[];
         try {
