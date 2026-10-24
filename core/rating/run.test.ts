@@ -74,6 +74,7 @@ test.each<[string, Ask]>([
   const baseline = await scan(seeded());
 
   const file = seeded();
+  const t0 = performance.now();
   let running: Promise<unknown> | null = scan(file).finally(() => (running = null));
   const scanned = running as Promise<Awaited<ReturnType<typeof scan>>>;
   const rated = rateCompanies(file, {
@@ -84,7 +85,9 @@ test.each<[string, Ask]>([
     },
   });
   const result = await scanned;
+  const scanMs = performance.now() - t0;
   await rated;
+  expect(scanMs).toBeLessThan(80);
 
   expect(cards(result.rows)).toEqual(cards(baseline.rows));
   expect(result.rows.filter((r) => r.kept === true)).toHaveLength(COMPANIES.length);

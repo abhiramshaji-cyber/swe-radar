@@ -1,14 +1,19 @@
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { DAY } from "../time";
+import { loadRates } from "../rank/rates";
 import { expect, test } from "bun:test";
 import type { TypeSafeClient } from "@typesafe-ai/sdk";
 import { classifyOne } from "../jev/answer";
 import { job } from "../repost/fixture";
 import { SETTINGS } from "../settings/fixture";
 import { schemaOf } from "../settings/file";
-import { loadStore } from "../store";
+import { loadStore, saveStore } from "../store";
 import type { Extraction } from "../types";
 import { jobScore } from "../rank/score";
 import { payLabel } from "../../src/lib/format";
-import { buildRows, lookup } from "./rows";
+import { buildRows, lastResult, lookup } from "./rows";
 
 const settings = { ...SETTINGS, currency: "USD" };
 const posting = job("greenhouse:pay", { pay: { min: 90000, max: 100000, currency: "EUR" } });
@@ -54,7 +59,7 @@ test("Jev only estimates pay when conversion is unavailable", async () => {
   }
 });
 
-test("expired conversion without an estimate invalidates the cached classification", () => {
+test("unavailable conversion without an estimate invalidates the cached classification", () => {
   const store = loadStore("nonexistent-rates-test-store.json");
   store.jobs[posting.key] = posting;
   store.extractions[posting.key] = { ...extraction, pay: null };
@@ -62,4 +67,31 @@ test("expired conversion without an estimate invalidates the cached classificati
   expect(lookup(store, settings)(posting.key)).toBeNull();
   store.extractions[posting.key] = extraction;
   expect(lookup(store, settings)(posting.key)).toEqual(extraction);
+});
+
+
+test("launch keeps classifications and converted salaries after rates expire offline", async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "radar-launch-"));
+  const file = path.join(dir, "store.json");
+  const now = posting.postedAt + 1000;
+  try {
+    const store = loadStore(file);
+    store.jobs[posting.key] = posting;
+    store.seen[posting.key] = posting.postedAt;
+    store.extractions[posting.key] = { ...extraction, pay: null };
+    saveStore(file, store);
+    fs.writeFileSync(path.join(dir, "exchange-rates.json"), JSON.stringify({ at: now, rates }));
+    const fresh = lastResult(file, settings, now)!.rows[0];
+    const offline = await loadRates(file, now + DAY + 1, undefined, async () => { throw new Error("offline"); });
+    expect(lookup(store, settings, offline)(posting.key)).toEqual(store.extractions[posting.key]);
+    const stale = lastResult(file, settings, now + DAY + 1)!.rows[0];
+    expect(stale.extraction).toEqual(fresh.extraction);
+    expect(stale.extraction).not.toBeNull();
+    expect(stale.kept).toBe(fresh.kept);
+    expect(stale.salary).toEqual({ min: 108000, max: 120000, currency: "USD" });
+    expect(stale.score).toBe(fresh.score);
+    expect(stale.estimated).toBe(false);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
 });

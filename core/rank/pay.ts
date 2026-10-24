@@ -6,10 +6,8 @@ export function convertedPay(pay: Pay | undefined, currency: string, rates?: Rat
   if (pay.currency === currency) return pay;
   const from = rates?.[pay.currency];
   const to = rates?.[currency];
-  if (!from || !to || !Number.isFinite(from) || !Number.isFinite(to) || from <= 0 || to <= 0) return null;
-  const min = pay.min * to / from;
-  const max = pay.max * to / from;
-  return Number.isFinite(min) && Number.isFinite(max) && min > 0 && max >= min ? { min, max, currency } : null;
+  if (!from || !to) return null;
+  return { min: pay.min * to / from, max: pay.max * to / from, currency };
 }
 
 export type Per = "hour" | "day" | "week" | "month" | "year";

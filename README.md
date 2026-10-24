@@ -52,7 +52,7 @@ On first launch the setup screen opens. In order:
 2. **Work country.** Where you are authorized to work. Optionally, a country to skip when a job hires only there.
 3. **Experience.** Max years required, and the seniority levels to skip.
 4. **Languages.** Required languages that rule a job out.
-5. **Pay.** Currency and a floor. Leave it at 0 to ignore pay. Posted pay is converted into your selected currency for ranking using daily ECB reference rates from [Frankfurter](https://frankfurter.dev/). Cards keep the original posted amount and currency. Rates are cached for 24 hours in `exchange-rates.json` beside the app store; if no fresh rates are available or a currency is unsupported, Jev estimates pay as before.
+5. **Pay.** Currency and a floor. Leave it at 0 to ignore pay. Posted pay is converted into your selected currency for ranking using daily ECB reference rates from [Frankfurter](https://frankfurter.dev/). Cards keep the original posted amount and currency. Rates are cached in `exchange-rates.json` beside the app store and refreshed after 24 hours. If fetching fails, the last cached rates remain usable; if rates have never been fetched or a currency is unsupported, Jev estimates pay as before.
 6. **AI provider.** Codex or Claude Code, for answers and documents.
 7. **TypeSafe key.** Paste your API key in Options. It is encrypted with the macOS keychain. `TYPESAFE_API_KEY` works as a fallback.
 8. **Profile and resume.** Write your profile in the app; it is what answers are written from. Put your resume and cover letter template in [`data/resume.ts`](data/resume.ts) and [`data/cover-letter.ts`](data/cover-letter.ts), which ship with an example.

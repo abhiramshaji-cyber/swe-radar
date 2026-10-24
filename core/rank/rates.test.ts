@@ -25,26 +25,46 @@ test("converts both endpoints and cross rates without changing posted pay", () =
   expect(convertedPay(pay, "EUR")).toBe(pay);
   expect(convertedPay(pay, "USD")).toBeNull();
   expect(convertedPay(undefined, "USD")).toBeNull();
-  expect(convertedPay(pay, "USD", { EUR: 1, USD: Infinity })).toBeNull();
 });
 
-test("persists rates for one day and refreshes an expired cache", async () => {
+test("keeps cached rates offline and refreshes after one day", async () => {
   const file = storeFile();
   expect(await loadRates(file, now, undefined, request(body))).toEqual({ EUR: 1, USD: 1.2 });
-  expect(readRates(file, now)).toEqual({ EUR: 1, USD: 1.2 });
+  expect(readRates(file)).toEqual({ EUR: 1, USD: 1.2 });
   const offline = (async () => { throw new Error("offline"); });
   expect(await loadRates(file, now + 1, undefined, offline)).toEqual({ EUR: 1, USD: 1.2 });
-  expect(await loadRates(file, now + DAY, undefined, offline)).toBeUndefined();
+  expect(await loadRates(file, now + DAY, undefined, offline)).toEqual({ EUR: 1, USD: 1.2 });
   expect(await loadRates(file, now + DAY, undefined, request([{ ...body[0], rate: 1.3 }]))).toEqual({ EUR: 1, USD: 1.3 });
 });
 
 test("network, HTTP, malformed, and stale responses fall back without throwing", async () => {
   const file = storeFile();
   expect(await loadRates(file, now, undefined, (async () => { throw new Error("offline"); }))).toBeUndefined();
-  for (const data of [null, [], {}, [{ ...body[0], rate: 0 }], [{ ...body[0], date: "2020-01-01" }], [{ ...body[0], base: "USD" }]]) {
+  for (const data of [null, [], {}]) {
     expect(await loadRates(file, now, undefined, request(data))).toBeUndefined();
   }
   expect(await loadRates(file, now, undefined, request(body, 503))).toBeUndefined();
   fs.writeFileSync(path.join(path.dirname(file), "exchange-rates.json"), "broken");
-  expect(readRates(file, now)).toBeUndefined();
+  expect(readRates(file)).toBeUndefined();
+});
+
+
+test("skips invalid quotes without losing valid currencies", async () => {
+  const file = storeFile();
+  const bad = [null, { ...body[0], quote: "GBP", rate: 0 },
+    { ...body[0], quote: "CAD", date: "2020-01-01" }, { ...body[0], quote: "JPY", base: "USD" }];
+  expect(await loadRates(file, now, undefined, request([...bad, ...body]))).toEqual({ EUR: 1, USD: 1.2 });
+  expect(await loadRates(storeFile(), now, undefined, request(bad))).toEqual({ EUR: 1 });
+});
+
+test("failed refresh responses preserve the last snapshot and its timestamp", async () => {
+  const file = storeFile();
+  await loadRates(file, now, undefined, request(body));
+  const cache = path.join(path.dirname(file), "exchange-rates.json");
+  const saved = fs.readFileSync(cache, "utf8");
+  for (const fetcher of [request(body, 503), request(null), request([]),
+    async () => new Response("invalid json")]) {
+    expect(await loadRates(file, now + DAY + 1, undefined, fetcher)).toEqual({ EUR: 1, USD: 1.2 });
+    expect(fs.readFileSync(cache, "utf8")).toBe(saved);
+  }
 });

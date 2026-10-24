@@ -112,7 +112,7 @@ function resultOf(store: Store, now: number, s: Settings, rates?: Rates): Refres
   };
 }
 
-export const lastResult = (file: string, s: Settings, now = Date.now()) => resultOf(pruneStore(loadStore(file), now), now, s, readRates(file, now));
+export const lastResult = (file: string, s: Settings, now = Date.now()) => resultOf(pruneStore(loadStore(file), now), now, s, readRates(file));
 
 export async function rescore(file: string, on: Hooks, s: Settings, apiKey?: string): Promise<RefreshResult | null> {
   const now = Date.now();
