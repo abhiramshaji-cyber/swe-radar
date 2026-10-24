@@ -68,7 +68,7 @@ export function Card({ r, now, i, fresh, audit, applied, onAsk, onApplied }: Pro
             </span>
           )}
           {pay && (
-            <span className="pay" data-estimated={r.estimated || undefined}>
+            <span className="pay" data-estimated={(!r.pay && r.estimated) || undefined}>
               {pay}
             </span>
           )}

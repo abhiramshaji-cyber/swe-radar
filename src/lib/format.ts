@@ -21,9 +21,10 @@ const money = (n: number, currency = "USD") =>
   new Intl.NumberFormat("en", { style: "currency", currency, notation: "compact", maximumFractionDigits: 0 }).format(n);
 
 export function payLabel(r: Row) {
-  if (!r.salary) return "";
-  const { min, max, currency } = r.salary;
-  if (r.estimated) return "~" + money((min + max) / 2, currency);
+  const pay = r.pay ?? r.salary;
+  if (!pay) return "";
+  const { min, max, currency } = pay;
+  if (!r.pay && r.estimated) return "~" + money((min + max) / 2, currency);
   return money(min, currency) === money(max, currency) ? money(min, currency) : money(min, currency) + "–" + money(max, currency);
 }
 
