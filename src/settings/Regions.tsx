@@ -30,6 +30,15 @@ export function Regions({ regions, onChange }: Props) {
               aria-label="LinkedIn search location"
               onChange={(e) => set(i, { linkedinLocation: e.target.value })}
             />
+            <label>
+              <input
+                type="checkbox"
+                checked={!!r.linkedinRemoteOnly}
+                disabled={!r.linkedinLocation?.trim()}
+                onChange={(e) => set(i, { linkedinRemoteOnly: e.target.checked })}
+              />
+              Remote only
+            </label>
             <button
               type="button"
               className="icon-btn"
