@@ -53,6 +53,7 @@ function seeded() {
     extractions: Object.fromEntries(JOBS.map((p, i) => [p.key, extraction(i)])),
   };
   saveStore(file, store);
+  fs.writeFileSync(path.join(path.dirname(file), "exchange-rates.json"), JSON.stringify({ at: NOW, rates: { EUR: 1, USD: 1.2 } }));
   return file;
 }
 
@@ -76,14 +77,20 @@ test.each<[string, Ask]>([
   const t0 = performance.now();
   let running: Promise<unknown> | null = scan(file).finally(() => (running = null));
   const scanned = running as Promise<Awaited<ReturnType<typeof scan>>>;
-  const rated = rateCompanies(file, { settings: SETTINGS, idle: () => running, ask, now: () => NOW });
+  const rated = rateCompanies(file, {
+    settings: SETTINGS, idle: () => running, now: () => NOW,
+    ask: (...args) => {
+      expect(running).toBeNull();
+      return ask(...args);
+    },
+  });
   const result = await scanned;
   const scanMs = performance.now() - t0;
   await rated;
+  expect(scanMs).toBeLessThan(80);
 
   expect(cards(result.rows)).toEqual(cards(baseline.rows));
   expect(result.rows.filter((r) => r.kept === true)).toHaveLength(COMPANIES.length);
-  expect(scanMs).toBeLessThan(80);
 
   const store = loadStore(file);
   expect(Object.keys(store.jobs).sort()).toEqual(JOBS.map((p) => p.key).sort());

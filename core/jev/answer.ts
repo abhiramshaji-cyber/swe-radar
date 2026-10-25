@@ -1,4 +1,6 @@
 import type { TypeSafeClient } from "@typesafe-ai/sdk";
+import { convertedPay } from "../rank/pay";
+import type { Rates } from "../rank/rates";
 import type { Settings } from "../settings";
 import { schemaOf } from "../settings/file";
 import { SENIORITIES, type Extraction, type Posting } from "../types";
@@ -26,9 +28,10 @@ export async function classifyOne(
   knownCompany: number | undefined,
   settings: Settings,
   signal?: AbortSignal,
+  rates?: Rates,
 ) {
   const { answers, usage } = await jev.systemOne(
-    { model: MODEL, state: stateFor(p), questions: questionsFor(settings, p.pay?.currency !== settings.currency, knownCompany === undefined) },
+    { model: MODEL, state: stateFor(p), questions: questionsFor(settings, !convertedPay(p.pay, settings.currency, rates), knownCompany === undefined) },
     { signal },
   );
   const a = answers as Record<string, any>;
