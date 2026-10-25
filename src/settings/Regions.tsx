@@ -34,6 +34,7 @@ export function Regions({ regions, onChange }: Props) {
               <input
                 type="checkbox"
                 checked={!!r.linkedinRemoteOnly}
+                disabled={!r.linkedinLocation?.trim()}
                 onChange={(e) => set(i, { linkedinRemoteOnly: e.target.checked })}
               />
               Remote only
